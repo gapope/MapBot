@@ -28,7 +28,7 @@ void loop() {
   
   duration = pulseIn(echo, HIGH);
   distance = duration * 0.034/2;
-  Serial.println(distance);
+  //Serial.println(distance);
 
   if (distance > 20 && distance < 500) {
     digitalWrite(R1, LOW);

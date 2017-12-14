@@ -3,7 +3,7 @@
 #define L1 9
 #define L2 10
 #define AT 11
-#define trig 2
+#define trig 3
 #define echo 4
 
 double distance;
@@ -39,6 +39,13 @@ void loop() {
   duration = pulseIn(echo, HIGH);
   distance = duration * 0.034/2;
   //Serial.println(distance);
+
+  if(distance < 20){   //stopping as approaching wall
+    digitalWrite(R1, LOW);
+    digitalWrite(R2, LOW);
+    digitalWrite(L1, LOW);
+    digitalWrite(L2, LOW);
+  }
   
   if(Serial.available()){
   while(Serial.available())
@@ -49,12 +56,27 @@ void loop() {
     Serial.println(inputString);
     while (Serial.available() > 0)  
     { junk = Serial.read() ; }      // clear the serial buffer
-    if(inputString == "a" && distance > 20){         //in case of 'a' turn the motors on
+    if(inputString == "w" && distance > 20){         //in case of 'w' move forward
       digitalWrite(R1, LOW);
       digitalWrite(R2, HIGH);
       digitalWrite(L1, LOW);
       digitalWrite(L2, HIGH);  
-    }else if(inputString == "b"){   //incase of 'b' turn the motors off
+    }else if(inputString == "a"){   //incase of 'a' turn left
+      digitalWrite(R1, LOW);
+      digitalWrite(R2, HIGH);
+      digitalWrite(L1, HIGH);
+      digitalWrite(L2, LOW);
+    }else if(inputString == "d"){   //incase of 'd' turn right
+      digitalWrite(R1, HIGH);
+      digitalWrite(R2, LOW);
+      digitalWrite(L1, LOW);
+      digitalWrite(L2, HIGH);
+    }else if(inputString == "s"){   //incase of 's' move backwards
+      digitalWrite(R1, HIGH);
+      digitalWrite(R2, LOW);
+      digitalWrite(L1, HIGH);
+      digitalWrite(L2, LOW);
+    }else if(inputString == "x"){   //incase of 'x' turn the motors off
       digitalWrite(R1, LOW);
       digitalWrite(R2, LOW);
       digitalWrite(L1, LOW);
