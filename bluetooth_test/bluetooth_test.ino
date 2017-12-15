@@ -2,7 +2,7 @@
 #define R2 6
 #define L1 9
 #define L2 10
-#define AT 11
+
 #define trig 3
 #define echo 4
 
@@ -19,9 +19,6 @@ void setup() {
   pinMode(R2, OUTPUT);  
   pinMode(L1, OUTPUT);  
   pinMode(L2, OUTPUT);
-  pinMode(AT, OUTPUT);
-
-   digitalWrite(AT, HIGH);
 
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
