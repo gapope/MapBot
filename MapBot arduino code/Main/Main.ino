@@ -70,6 +70,11 @@ void setup() {
 
   Wire.begin();
   setupGyro();
+
+  Serial.begin(9600);
+  delay(5000);
+
+  Serial.println("HELLO");
   
   outerWalls(); //Traces walls
   innerSpace(); //Travels through inner space
@@ -107,6 +112,8 @@ void outerWalls(){
     if(i == 0){
       stopCar();
       spaceW = (getDistance(trig, echo) + getDistance(trig, echo) + getDistance(trig, echo))/3 + carLength;
+      Serial.print("Width: ");
+      Serial.println(spaceW);
       forward();
     }
   }
@@ -120,6 +127,8 @@ void innerSpace(){
   int rows = (spaceL - carLength) / carLength;
   //Number of rows to follow in zigzag pattern. 
   //Removes car's length from total distance and divides by car's length
+
+  
 
   for(int i = 0; i < rows; i++){
     //Gets distance to wall
@@ -144,16 +153,19 @@ void innerSpace(){
     }
 
     fDis = getDistance(trig, echo);
+
+    Serial.print("Distance: ");
+    Serial.println(fDis);
     
     //Checks if next object is too close to be the wall 
     //In that case it is an obstacle
-    /*if(fDis < spaceW - carLength * 2){
+    if(fDis < spaceW - carLength * 4){
       do{
         delay(50);
         fDis = getDistance(trig, echo);
       }while(fDis > 10);
       rectangularObject();
-    }*/
+    }
 
     do{
         delay(50);
@@ -225,7 +237,7 @@ void turnLeft(){
   analogWrite(lPin1, 255);
   analogWrite(lPin2, 0);
   analogWrite(rPin1, 0);
-  analogWrite(rPin2, 150);
+  analogWrite(rPin2, 200);
 
   timePassed(); //Resets time for gyroscope
   while(heading > -80){ //90 degree turn, but 85 provides better accuracy
@@ -247,7 +259,7 @@ void turnRight(){
   delay(50);
   
   analogWrite(lPin1, 0);
-  analogWrite(lPin2, 150);
+  analogWrite(lPin2, 200);
   analogWrite(rPin1, 255);
   analogWrite(rPin2, 0);
 
