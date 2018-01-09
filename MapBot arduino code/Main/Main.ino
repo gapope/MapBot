@@ -38,6 +38,10 @@ int gyroZeroRate;                    // Calibration data (sensor does not centre
 int gyroThreshold;                   // Change data less than the threshold is not used
 float dpsPerDigit=.00875f;           // Number for conversion to degrees per second
 
+//Bluetooth variables
+char junk;
+String inputString="";
+
 //Suggested numbers for calibration, taken from Jim Bourke as mentioned above
 #define  NUM_GYRO_SAMPLES  50          
 #define  GYRO_SIGMA_MULTIPLE  3         
@@ -74,10 +78,11 @@ void setup() {
   Serial.begin(9600);
   delay(5000);
 
-  Serial.println("HELLO");
+  //Serial.println("HELLO");
+
   
-  outerWalls(); //Traces walls
-  innerSpace(); //Travels through inner space
+  //outerWalls(); //Traces walls
+  //innerSpace(); //Travels through inner space
   /* Note: 
    *  The inner space function is where the issues are.
    *  It sometimes doesn't go forward the right amount, as either
@@ -90,6 +95,48 @@ void setup() {
 }
 
 void loop() { 
+  //Loops for bluetooth control
+  if(Serial.available()){
+  while(Serial.available())
+    {
+      char inChar = (char)Serial.read(); //read the input
+      inputString += inChar;        //make a string of the characters coming on serial
+    }
+    Serial.println(inputString);
+    while (Serial.available() > 0)  
+    { junk = Serial.read() ; }      // clear the serial buffer
+    if (inputString == "S") {    //Starting automatic exploration
+      outerWalls(); //Traces walls
+      innerSpace(); //Travels through inner space
+    }else if(inputString == "F" && distance > 20){   //in case of 'F' move forward
+      analogWrite(rPin1, 0);
+      analogWrite(rPin2, 150);
+      analogWrite(lPin1, 0);
+      analogWrite(lPin2, 150);  
+    }else if(inputString == "L"){   //incase of 'L' turn left
+      analogWrite(lPin1, 255);
+      analogWrite(lPin2, 0);
+      analogWrite(rPin1, 0);
+      analogWrite(rPin2, 200);
+    }else if(inputString == "R"){   //incase of 'R' turn right
+      analogWrite(lPin1, 0);
+      analogWrite(lPin2, 200);
+      analogWrite(rPin1, 255);
+      analogWrite(rPin2, 0);
+    }else if(inputString == "B"){   //incase of 'B' move backwards
+      analogWrite(rPin1, 150);
+      analogWrite(rPin2, 0);
+      analogWrite(lPin1, 150);
+      analogWrite(lPin2, 0);
+    }else if(inputString == "E"){   //incase of 'E' turn the motors off
+      analogWrite(rPin1, 0);
+      analogWrite(rPin2, 0);
+      analogWrite(lPin1, 0);
+      analogWrite(lPin2, 0);
+    }
+    inputString = "";
+}
+  
 }
 
 void outerWalls(){
@@ -112,8 +159,8 @@ void outerWalls(){
     if(i == 0){
       stopCar();
       spaceW = (getDistance(trig, echo) + getDistance(trig, echo) + getDistance(trig, echo))/3 + carLength;
-      Serial.print("Width: ");
-      Serial.println(spaceW);
+      //Serial.print("Width: ");
+      //Serial.println(spaceW);
       forward();
     }
   }
@@ -154,8 +201,8 @@ void innerSpace(){
 
     fDis = getDistance(trig, echo);
 
-    Serial.print("Distance: ");
-    Serial.println(fDis);
+    //Serial.print("Distance: ");
+    //Serial.println(fDis);
     
     //Checks if next object is too close to be the wall 
     //In that case it is an obstacle
@@ -200,7 +247,7 @@ void forward(){
   analogWrite(rPin1, 0);
   analogWrite(rPin2, 150);
   analogWrite(lPin1, 0);
-    analogWrite(lPin2, 150);
+  analogWrite(lPin2, 150);
 }
 
 void rectangularObject(){
@@ -245,8 +292,8 @@ void turnLeft(){
     getGyroVal();
     updateHeadings();
   }
-  Serial.println("Done");
-  Serial.println();
+  //Serial.println("Done");
+  //Serial.println();
 
   stopCar();
   delay(50);
@@ -269,8 +316,8 @@ void turnRight(){
     getGyroVal();
     updateHeadings();
   }
-  Serial.println("Done");
-  Serial.println();
+  //Serial.println("Done");
+  //Serial.println();
 
   stopCar();
   delay(50);
