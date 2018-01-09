@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);]
 
         mBtAdapter = BluetoothAdapter.getDefaultAdapter();
         if (mBtAdapter == null) {
@@ -92,9 +92,9 @@ public class MainActivity extends AppCompatActivity {
                 btAddress = device.getAddress();
                 TextView message = findViewById(R.id.textView);
                 message.setText(R.string.bt_loading_message);
-                Intent startRemote = new Intent(this, RemoteActivity.class);
-                startRemote.putExtra("Address", btAddress);
-                startActivity(startRemote);
+                Intent startChoice = new Intent(this, ChoiceActivity.class);
+                startChoice.putExtra("Address", btAddress);
+                startActivity(startChoice);
             }
         }
     }
@@ -111,9 +111,9 @@ public class MainActivity extends AppCompatActivity {
                 if (device.getName() != null){
                     if (device.getName().equals("mapBot")) {
                         btAddress = device.getAddress();
-                        Intent startRemote = new Intent(context, RemoteActivity.class);
-                        startRemote.putExtra("Address", btAddress);
-                        startActivity(startRemote);
+                        Intent startChoice = new Intent(context, ChoiceActivity.class);
+                        startChoice.putExtra("Address", btAddress);
+                        startActivity(startChoice);
                     }
                 }
 

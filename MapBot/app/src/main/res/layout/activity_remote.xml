@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="100"
-        android:layout_height="100"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.224"
-        app:srcCompat="@drawable/Arrow" />
+        app:srcCompat="@drawable/arrow" />
 
     <Button
         android:id="@+id/forward"
@@ -83,8 +83,8 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="100"
-        android:layout_height="100"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -93,12 +93,12 @@
         app:layout_constraintHorizontal_bias="0.869"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:srcCompat="@drawable/ArrowDown" />
+        app:srcCompat="@drawable/arrow_down" />
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="100"
-        android:layout_height="100"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -110,12 +110,12 @@
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/Circle" />
+        app:srcCompat="@drawable/circle" />
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="100"
-        android:layout_height="100"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -125,5 +125,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.517"
-        app:srcCompat="@drawable/CircleInverse" />
+        app:srcCompat="@drawable/circle_inverse" />
 </android.support.constraint.ConstraintLayout>

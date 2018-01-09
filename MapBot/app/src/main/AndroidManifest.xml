@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -20,7 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RemoteActivity"></activity>
+        <activity android:name=".RemoteActivity" />
+        <activity android:name=".ChoiceActivity" />
+        <activity android:name=".AutoActivity"></activity>
     </application>
 
 </manifest>
