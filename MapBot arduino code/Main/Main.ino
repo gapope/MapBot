@@ -71,6 +71,7 @@ void setup() {
   pinMode(rPin2, OUTPUT);
   pinMode(lPin1, OUTPUT);
   pinMode(lPin2, OUTPUT);
+  pinMode(13, OUTPUT);
 
   Wire.begin();
   setupGyro();
@@ -107,12 +108,17 @@ void loop() {
     { junk = Serial.read() ; }      // clear the serial buffer
     if (inputString == "S") {    //Starting automatic exploration
       outerWalls(); //Traces walls
-      innerSpace(); //Travels through inner space
-    }else if(inputString == "F" && distance > 20){   //in case of 'F' move forward
+      //innerSpace(); //Travels through inner space
+    }else if(inputString == "F"){   //in case of 'F' move forward
       analogWrite(rPin1, 0);
       analogWrite(rPin2, 150);
       analogWrite(lPin1, 0);
-      analogWrite(lPin2, 150);  
+      analogWrite(lPin2, 150);
+    }else if(inputString == "B"){   //incase of 'B' move backwards
+      analogWrite(rPin1, 150);
+      analogWrite(rPin2, 0);
+      analogWrite(lPin1, 150);
+      analogWrite(lPin2, 0);  
     }else if(inputString == "L"){   //incase of 'L' turn left
       analogWrite(lPin1, 255);
       analogWrite(lPin2, 0);
@@ -123,11 +129,6 @@ void loop() {
       analogWrite(lPin2, 200);
       analogWrite(rPin1, 255);
       analogWrite(rPin2, 0);
-    }else if(inputString == "B"){   //incase of 'B' move backwards
-      analogWrite(rPin1, 150);
-      analogWrite(rPin2, 0);
-      analogWrite(lPin1, 150);
-      analogWrite(lPin2, 0);
     }else if(inputString == "E"){   //incase of 'E' turn the motors off
       analogWrite(rPin1, 0);
       analogWrite(rPin2, 0);
@@ -151,6 +152,33 @@ void outerWalls(){
     //Continue forward until reaching a wall
     do{
         delay(50);
+        sDis = getDistance(trig2, echo2);
+        if(sDis > 20){
+          delay(300);
+          turnRight();
+          do{
+              delay(50);
+              sDis = getDistance(trig2, echo2);
+          }while(sDis > 30);
+          delay(100);
+          do{
+              delay(50);
+              sDis = getDistance(trig2, echo2);
+          }while(sDis < 30);
+          
+          delay(300);
+          turnRight();
+          do{
+              delay(50);
+              sDis = getDistance(trig2, echo2);
+          }while(sDis > 30);
+          
+          do{
+              delay(50);
+              fDis = getDistance(trig, echo);
+          }while(fDis > 10);
+          turnLeft();
+        }
         fDis = getDistance(trig, echo);
     }while(fDis > 10);
     turnLeft();
@@ -189,6 +217,10 @@ void innerSpace(){
     do{
         delay(50);
         fDis = getDistance(trig, echo);
+        digitalWrite(13, HIGH);
+        if(fDis < (distance - carLength)){
+          digitalWrite(13, LOW);
+        }
      }while(fDis > (distance - carLength));
 
     //Turns left or right depending on position in loop
@@ -206,7 +238,7 @@ void innerSpace(){
     
     //Checks if next object is too close to be the wall 
     //In that case it is an obstacle
-    if(fDis < spaceW - carLength * 4){
+    if(fDis < (spaceW - carLength) * 0.85){
       do{
         delay(50);
         fDis = getDistance(trig, echo);
